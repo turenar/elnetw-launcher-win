@@ -65,7 +65,7 @@ void process_args(int argc, LPTSTR *argv) {
 }
 
 bool check_if_exists(LPCTSTR path) {
-	struct _stat64 st;
+	struct __stat64 st;
 
 	int ret = _tstat64(path, &st);
 	return !ret;

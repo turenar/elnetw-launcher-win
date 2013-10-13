@@ -18,7 +18,7 @@
 #define PATH_SEPARATOR_LEN 1
 #endif /* PATH_SEPARATOR_LEN */
 
-LPTSTR path_combine(LPCTSTR dir, LPCTSTR file) __attribute__((malloc));
+LPTSTR path_combine(LPCTSTR dir, LPCTSTR file) __ATTRIB_MALLOC__;
 
 #ifdef HAVE_REALPATH
 #define __fullpath(fpath,resolved,size) realpath((fpath), (resolved))
@@ -28,7 +28,7 @@ LPTSTR path_combine(LPCTSTR dir, LPCTSTR file) __attribute__((malloc));
 
 #ifndef HAVE_TDIRNAME
 #define _tdirname(path) __tdirname((path))
-LPTSTR __tdirname(LPCTSTR path) __attribute__((malloc));
+LPTSTR __tdirname(LPCTSTR path) __ATTRIB_MALLOC__;
 #endif /* dirname */
 
 #ifndef _tbuflen

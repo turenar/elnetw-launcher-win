@@ -3,10 +3,6 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
-/* Define to 1 if your system has a GNU libc compatible `malloc' function, and
-   to 0 otherwise. */
-#undef HAVE_MALLOC
-
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
@@ -70,5 +66,5 @@
 /* Use Unicode chars */
 #undef _UNICODE
 
-/* Define to rpl_malloc if the replacement function should be used. */
-#undef malloc
+/* for __stat64 */
+#undef __MSVCRT_VERSION__

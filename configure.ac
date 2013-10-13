@@ -12,7 +12,7 @@ AC_LANG([C])
 AC_PROG_CC
 
 AC_HEADER_STDC
-AC_FUNC_MALLOC
+dnl AC_FUNC_MALLOC
 AC_CHECK_HEADER([string.h])
 AC_CHECK_HEADER([stdlib.h])
 AC_CHECK_HEADER([stdio.h])
@@ -25,6 +25,9 @@ AC_CHECK_FUNCS([realpath _fullpath], [break])
 dnl AC_CHECK_FUNC([dirname])
 AC_CHECK_FUNC([_tdirname])
 AC_CHECK_FUNC([opendir])
+AC_CHECK_LIB([msvcr70], [_stat], [AC_DEFINE([__MSVCRT_VERSION__], [0x700], [for __stat64])])
+AC_CHECK_TYPE([struct __stat64])
+
 
 case $host_os in
   *mingw32*)

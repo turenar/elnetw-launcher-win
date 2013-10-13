@@ -18,9 +18,9 @@ typedef struct _linked_list {
 	struct _link_node *last;
 } llist;
 
-llist *node_init() __attribute__((malloc));
+llist *node_init() __ATTRIB_MALLOC__;
 void node_add_list(llist *list, const void *obj);
-void** node_to_array(llist *list) __attribute__((malloc));
+void** node_to_array(llist *list) __ATTRIB_MALLOC__;
 llist *node_add_all(llist *dst, const llist *src);
 
 #endif /* NODE_H_ */

@@ -32,8 +32,12 @@ typedef int bool;
 #define _tspawnvp _wspawnvp
 #else
 #define _tspawnvp _spawnvp
-#endif
-#endif
+#endif /* def UNICODE */
+#endif /* ndef _tspawnvp */
+
+#ifndef __ATTRIB_MALLOC__
+#define __ATTRIB_MALLOC__ __attribute__((__malloc__))
+#endif /* __ATTRIB_MALLOC__ */
 
 #ifndef NULL
 #define NULL ((void*) 0)
