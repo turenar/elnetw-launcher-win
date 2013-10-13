@@ -16,6 +16,18 @@
 *.out
 *.app
 
+# Autotools
+/autom4te.cache
+Makefile
+/config.log
+/config.status
+/src/.deps
+/src/config.h
+/src/stamp-h1
+
+# common
+*~
+
 # for eclipse
 /.cproject
 /.project
