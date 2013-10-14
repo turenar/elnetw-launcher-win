@@ -112,8 +112,7 @@ int _tWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPTSTR pCmdLine,
 	if (_tcscmp(bin_dir, cwd)) {
 		_tchdir(_T(".."));
 	}
-	project_dir = _tcsdup(bin_dir);
-	project_dir = _tdirname(project_dir);
+	project_dir = _tdirname(bin_dir);
 
 	process_args(argc, argv);
 
@@ -128,7 +127,7 @@ int _tWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPTSTR pCmdLine,
 	node_add_list(&commands, launcher_jar);
 	node_add_all(&commands, &app_args);
 
-	TCHAR str[65536] = { _T('\0') };
+	/*TCHAR str[65536] = { _T('\0') };
 	struct _link_node *j = commands.first;
 	while (j != NULL) {
 		_tcscat(str, _T("\""));
@@ -137,7 +136,7 @@ int _tWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPTSTR pCmdLine,
 		j = j->next;
 	}
 
-	//MessageBox(NULL, str, _T("elnetw"), MB_OK);
+	MessageBox(NULL, str, _T("elnetw"), MB_OK);*/
 
 	int exitCode = _tspawnvp(_P_WAIT, _T("java"),
 			(LPCTSTR const*) node_to_array(&commands));
