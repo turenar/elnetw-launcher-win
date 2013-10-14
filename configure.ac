@@ -5,8 +5,8 @@ AC_INIT([elnetw-launcher-win],[0.1],[https://github.com/turenar/elnetw-launcher-
 
 
 AC_CANONICAL_TARGET
-AM_INIT_AUTOMAKE()
-dnl m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+AM_INIT_AUTOMAKE
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 AC_LANG([C])
 AC_PROG_CC
