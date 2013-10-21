@@ -32,7 +32,7 @@ AC_CHECK_FUNCS([realpath _fullpath], [break])
 dnl AC_CHECK_FUNC([dirname])
 AC_CHECK_FUNC([_tdirname])
 AC_CHECK_FUNC([opendir])
-AC_CHECK_LIB([msvcr70], [_stat])
+AC_CHECK_LIB([msvcr71], [_stat])
 if test x$ac_cv_lib_msvcr70__stat = xyes; then
 	AC_DEFINE([__MSVCRT_VERSION__], [0x700], [for __stat64])
 fi

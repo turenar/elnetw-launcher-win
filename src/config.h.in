@@ -3,8 +3,8 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
-/* Define to 1 if you have the `msvcr70' library (-lmsvcr70). */
-#undef HAVE_LIBMSVCR70
+/* Define to 1 if you have the `msvcr71' library (-lmsvcr71). */
+#undef HAVE_LIBMSVCR71
 
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
