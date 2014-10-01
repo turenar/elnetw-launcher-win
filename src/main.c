@@ -25,6 +25,8 @@
 #include "arg_parser.h"
 #include "common.h"
 
+#define strlenof(str) sizeof(str)
+
 static TCHAR cwd[MAX_PATH];
 static LPTSTR project_dir;
 static LPTSTR bin_dir;
@@ -152,6 +154,13 @@ int el_main(){
 	}
 	node_add_list(&commands, java_cmd);
 	node_add_all(&commands, &java_args);
+
+	LPTSTR splashArg = malloc((_tcslen(project_dir)+strlenof("-splash:""/bin/splash.png")+1)
+			*sizeof(TCHAR));
+	_tcscpy(splashArg, _T("-splash:"));
+	_tcscat(splashArg, project_dir);
+	_tcscat(splashArg, _T("/bin/splash.png"));
+	node_add_list(&commands, splashArg);
 	node_add_list(&commands, _T("-classpath"));
 	node_add_list(&commands, node_combine_str(&classpath, _T(";")));
 	node_add_list(&commands, _T("jp.mydns.turenar.launcher.TwitterClientLauncher"));
@@ -174,7 +183,7 @@ int el_main(){
 #endif
 
 	wow_redirect_stop();
-	int exitCode = proc_spawn(java_cmd, (LPCTSTR*) node_to_array(&commands));
+	int exitCode = proc_spawn(java_cmd, (LPTSTR*) node_to_array(&commands));
 	wow_redirect_start();
 
 	switch (exitCode) {

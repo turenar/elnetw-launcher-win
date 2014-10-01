@@ -2,7 +2,7 @@
  * config.inc.h
  *
  *  Created on: 2014/10/01
- *      Author: Subaru
+ *      Author: Turenar (snswinhaiku dot lo at gmail dot com)
  */
 
 #ifndef CONFIG_INC_H_

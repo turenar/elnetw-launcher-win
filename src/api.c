@@ -2,7 +2,7 @@
  * api.c
  *
  *  Created on: 2014/10/01
- *      Author: Subaru
+ *      Author: Turenar (snswinhaiku dot lo at gmail dot com)
  */
 
 #include "config.inc.h"

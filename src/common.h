@@ -1,5 +1,5 @@
 /*
- * lib.h
+ * common.h
  *
  *  Created on: 2013/09/14
  *      Author: Turenar (snswinhaiku dot lo at gmail dot com)
