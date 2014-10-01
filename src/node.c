@@ -25,6 +25,7 @@ void node_add_list(llist *list, const void *obj) {
 		list->last = last->next = new_node;
 	}
 	new_node->obj = obj;
+	printf("%d", list->size);
 	list->size++;
 }
 
@@ -50,5 +51,37 @@ llist *node_add_all(llist *dst, const llist *src) {
 		pointer = pointer->next;
 	}
 	return dst;
+}
+
+LPTSTR node_combine_str(llist *list, LPCTSTR glue) {
+	int glue_len = _tcslen(glue);
+	int len = 0;
+	llnode *pointer = list->first;
+	while (pointer != NULL) {
+		len += _tcslen(pointer->obj) + glue_len;
+		pointer = pointer->next;
+	}
+	len -= glue_len;
+
+	LPTSTR string = malloc((len + 1) * sizeof(TCHAR));
+
+	pointer = list->first;
+	TCHAR* str_lp = string;
+	while (pointer != NULL) {
+		const TCHAR* str = (const TCHAR*) pointer->obj;
+		while ((*str) != _T('\0')) {
+			*(str_lp++) = *(str++);
+		}
+		pointer = pointer->next;
+
+		if (pointer != NULL) {
+			str = glue;
+			while ((*str) != _T('\0')) {
+				*(str_lp++) = *(str++);
+			}
+		}
+	}
+	*str_lp = _T('\0');
+	return string;
 }
 

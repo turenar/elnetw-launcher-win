@@ -18,7 +18,8 @@
 #define PATH_SEPARATOR_LEN 1
 #endif /* PATH_SEPARATOR_LEN */
 
-LPTSTR path_combine(LPCTSTR dir, LPCTSTR file) __ATTRIB_MALLOC__;
+LPTSTR path_combine(LPCTSTR dir, LPCTSTR file)
+__ATTRIB_MALLOC__;
 
 #ifdef HAVE_REALPATH
 #define __fullpath(fpath,resolved,size) realpath((fpath), (resolved))
@@ -28,8 +29,15 @@ LPTSTR path_combine(LPCTSTR dir, LPCTSTR file) __ATTRIB_MALLOC__;
 
 #ifndef HAVE_TDIRNAME
 #define _tdirname(path) __tdirname((path))
-LPTSTR __tdirname(LPCTSTR path) __ATTRIB_MALLOC__;
+LPTSTR __tdirname(LPCTSTR path)
+__ATTRIB_MALLOC__;
 #endif /* dirname */
+
+LPTSTR get_registry_str(HKEY root, LPCTSTR dir, LPCTSTR path)
+__ATTRIB_MALLOC__;
+int proc_spawn(LPTSTR execPath, LPTSTR* cmdLine);
+void wow_redirect_start();
+void wow_redirect_stop();
 
 #ifndef _tbuflen
 #define _tbuflen(buf) (sizeof((buf))/sizeof(TCHAR))

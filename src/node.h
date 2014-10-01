@@ -8,6 +8,11 @@
 #ifndef NODE_H_
 #define NODE_H_
 
+#include <string.h>
+#include <stdlib.h>
+#include <tchar.h>
+#include <windows.h>
+
 struct _link_node {
 	const void *obj;
 	struct _link_node *next;
@@ -22,5 +27,6 @@ llist *node_init() __ATTRIB_MALLOC__;
 void node_add_list(llist *list, const void *obj);
 void** node_to_array(llist *list) __ATTRIB_MALLOC__;
 llist *node_add_all(llist *dst, const llist *src);
+LPTSTR node_combine_str(llist *list, LPCTSTR glue);
 
 #endif /* NODE_H_ */
