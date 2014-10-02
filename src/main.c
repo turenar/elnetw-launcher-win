@@ -56,11 +56,26 @@ void process_args(int argc, LPTSTR *argv) {
 	int i;
 	for (i = 1; i < argc; i++) {
 		LPTSTR arg = argv[i];
-		if (arg[0] == _T('-') && arg[1] == _T('X')) {
-			/*LPTSTR val = get_arg_value(arg, _T("-Xlauncher.jar="));
-			 if (val != NULL) {
-			 launcher_jar = val;
-			 }*/
+		if (arg[0] == _T('-')) {
+			if (arg[1] == _T('X')) {
+				/*LPTSTR val = get_arg_value(arg, _T("-Xlauncher.jar="));
+				 if (val != NULL) {
+				 launcher_jar = val;
+				 }*/
+			} else if (arg[1] == _T('J')) {
+				LPTSTR java_arg = arg + 2; // skip "-J"
+				if (_tcscmp(java_arg, _T("")) == 0) {
+					i++;
+					if (i >= argc) {
+						_tprintf(_T("Missing argument for -J"));
+						break; // for
+					}
+					java_arg = argv[i];
+				}
+				add_java_arg(java_arg);
+			} else {
+				add_app_arg(arg);
+			}
 		} else {
 			add_app_arg(arg);
 		}
@@ -98,10 +113,9 @@ void init_classpath() {
 }
 
 LPTSTR get_java_cmd() {
-	LPTSTR regValue =
-			get_registry_str(HKEY_LOCAL_MACHINE,
-					_T("SOFTWARE\\JavaSoft\\Java Runtime Environment"),
-					_T("CurrentVersion"));
+	LPTSTR regValue = get_registry_str(HKEY_LOCAL_MACHINE,
+			_T("SOFTWARE\\JavaSoft\\Java Runtime Environment"),
+			_T("CurrentVersion"));
 #ifdef DEBUG
 	MessageBox(NULL, regValue, _T("elnetw"), MB_OK);
 #endif
@@ -111,7 +125,8 @@ LPTSTR get_java_cmd() {
 #ifdef DEBUG
 		MessageBox(NULL, regVersionKey, _T("elnetw"), MB_OK);
 #endif
-		LPTSTR regValue = get_registry_str(HKEY_LOCAL_MACHINE, regVersionKey, _T("JavaHome"));
+		LPTSTR regValue = get_registry_str(HKEY_LOCAL_MACHINE, regVersionKey,
+				_T("JavaHome"));
 		if (regValue != NULL) {
 			LPTSTR javaPath = path_combine(regValue, _T("bin\\javaw.exe"));
 			free(regValue);
@@ -125,7 +140,7 @@ LPTSTR get_java_cmd() {
 	}
 }
 
-int el_main(){
+int el_main() {
 	TCHAR fullpath[MAX_PATH];
 	int argc;
 	LPTSTR pCmdLine = GetCommandLine();
@@ -155,19 +170,21 @@ int el_main(){
 	node_add_list(&commands, java_cmd);
 	node_add_all(&commands, &java_args);
 
-	LPTSTR splashArg = malloc((_tcslen(project_dir)+strlenof("-splash:""/bin/splash.png")+1)
-			*sizeof(TCHAR));
+	LPTSTR splashArg = malloc(
+			(_tcslen(project_dir) + strlenof("-splash:" "/bin/splash.png") + 1)
+					* sizeof(TCHAR));
 	_tcscpy(splashArg, _T("-splash:"));
 	_tcscat(splashArg, project_dir);
 	_tcscat(splashArg, _T("/bin/splash.png"));
 	node_add_list(&commands, splashArg);
 	node_add_list(&commands, _T("-classpath"));
 	node_add_list(&commands, node_combine_str(&classpath, _T(";")));
-	node_add_list(&commands, _T("jp.mydns.turenar.launcher.TwitterClientLauncher"));
+	node_add_list(&commands,
+			_T("jp.mydns.turenar.launcher.TwitterClientLauncher"));
 	node_add_all(&commands, &app_args);
 
 #ifdef DEBUG
-	TCHAR str[65536] = { _T('\0') };
+	TCHAR str[65536] = {_T('\0')};
 	struct _link_node *j = commands.first;
 	while (j != NULL) {
 		_tcscat(str, _T("\""));
