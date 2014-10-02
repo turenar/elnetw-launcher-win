@@ -14,6 +14,10 @@
 #include "api.h"
 #include "common.h"
 
+static LPTSTR get_app_dir() {
+	return _tgetenv(_T("APPDATA"));
+}
+
 LPTSTR path_combine(LPCTSTR dir, LPCTSTR file) {
 	int len;
 	len = _tcslen(dir);
@@ -92,9 +96,26 @@ void wow_redirect_stop() {
 }
 
 int proc_spawn(LPTSTR execPath, LPTSTR* cmdLine) {
+	SECURITY_ATTRIBUTES saAttr;
+	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
+	saAttr.bInheritHandle = TRUE;
+	saAttr.lpSecurityDescriptor = NULL;
+	HANDLE logHandle = CreateFile(
+			path_combine(get_app_dir(), _T("elnetw\\launcher.log")),
+			GENERIC_WRITE, FILE_SHARE_WRITE | FILE_SHARE_READ, &saAttr,
+			OPEN_ALWAYS,
+			FILE_ATTRIBUTE_NORMAL, NULL);
+	if (logHandle == INVALID_HANDLE_VALUE) {
+		report_error(GetLastError());
+	}
+
 	PROCESS_INFORMATION processInformation = { 0 };
 	STARTUPINFO startupInfo = { 0 };
 	startupInfo.cb = sizeof(startupInfo);
+	startupInfo.hStdError = logHandle;
+	startupInfo.hStdOutput = logHandle;
+	startupInfo.hStdInput = NULL;
+	startupInfo.dwFlags |= STARTF_USESTDHANDLES;
 
 	int size = 0;
 	LPTSTR* cmdLine_lp = cmdLine;
@@ -114,7 +135,7 @@ int proc_spawn(LPTSTR execPath, LPTSTR* cmdLine) {
 
 	// Create the process
 	BOOL result = CreateProcess(execPath, cmdLineStr,
-	NULL, NULL, FALSE,
+	NULL, NULL, TRUE,
 	NORMAL_PRIORITY_CLASS | CREATE_NO_WINDOW,
 	NULL, NULL, &startupInfo, &processInformation);
 

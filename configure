@@ -705,6 +705,7 @@ ac_user_opts='
 enable_option_checking
 enable_silent_rules
 enable_dependency_tracking
+enable_debug
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1341,6 +1342,7 @@ Optional Features:
   --disable-silent-rules         verbose build output (undo: `make V=0')
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
+  --enable-debug          enable debug code
 
 Some influential environment variables:
   CC          C compiler command
@@ -3977,6 +3979,14 @@ if test "$am_t" != yes; then
    CC="$am_aux_dir/compile $CC"
 fi
 
+
+
+# Check whether --enable-debug was given.
+if test "${enable_debug+set}" = set; then :
+  enableval=$enable_debug;
+$as_echo "#define DEBUG /**/" >>confdefs.h
+
+fi
 
 
 

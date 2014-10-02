@@ -13,6 +13,10 @@ AC_LANG([C])
 AC_PROG_CC
 AM_PROG_CC_C_O
 
+AC_ARG_ENABLE([debug],
+	AS_HELP_STRING([--enable-debug], [enable debug code]),
+	AC_DEFINE([DEBUG], [], [Enable Debug Code]))
+
 AC_HEADER_STDC
 dnl AC_FUNC_MALLOC
 AC_CHECK_HEADER([string.h])
