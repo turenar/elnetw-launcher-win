@@ -14,8 +14,8 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 
 AC_ARG_ENABLE([debug],
-	AS_HELP_STRING([--enable-debug], [enable debug code]),
-	AC_DEFINE([DEBUG], [], [Enable Debug Code]))
+	AS_HELP_STRING([--enable-debug], [enable debug code]),[
+		AC_DEFINE([DEBUG], [], [Enable Debug Code])])
 
 AC_HEADER_STDC
 dnl AC_FUNC_MALLOC
@@ -58,6 +58,25 @@ AC_CHECK_FUNC([_wstat64])
 
 AC_CHECK_TYPE([struct __stat64])
 
+AC_PATH_PROG([WINDRES], [windres], [])
+if test "x$WINDRES" = "x"; then
+	AC_MSG_ERROR([windres is required for version info. Please check your environment])
+fi
+
+AC_PATH_PROG([SED], [sed], [:])
+if test "x$SED" = "x:"; then
+	AC_MSG_WARN([sed is required for inline substition. Please install sed
+	for described version])
+fi
+
+AC_PATH_PROG([GIT], [git], [])
+if test "x$GIT" != "x"; then
+	AC_MSG_CHECKING([git described version])
+	__described_version=`git describe`
+	AC_MSG_RESULT([$__described_version])
+	AC_SUBST([PACKAGE_VERSION], [$__described_version])
+	AC_SUBST([VERSION], [$__described_version])
+fi
 
 AC_DEFINE([UNICODE], [], [Use Unicode chars])
 AC_DEFINE([_UNICODE], [], [Use Unicode chars])

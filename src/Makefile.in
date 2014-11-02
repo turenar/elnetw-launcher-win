@@ -50,7 +50,8 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_elnetw_OBJECTS = elnetw-main.$(OBJEXT) elnetw-common.$(OBJEXT) \
-	elnetw-arg_parser.$(OBJEXT) elnetw-node.$(OBJEXT)
+	elnetw-arg_parser.$(OBJEXT) elnetw-node.$(OBJEXT) \
+	res.$(OBJEXT)
 elnetw_OBJECTS = $(am_elnetw_OBJECTS)
 elnetw_LDADD = $(LDADD)
 elnetw_LINK = $(CCLD) $(elnetw_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
@@ -103,6 +104,7 @@ ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+GIT = @GIT@
 GREP = @GREP@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -124,10 +126,12 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
+WINDRES = @WINDRES@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -182,13 +186,18 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-elnetw_SOURCES = main.c common.c arg_parser.c node.c
+.SUFFIXES = .rc
+elnetw_SOURCES = main.c common.c arg_parser.c node.c res.rc
 elnetw_CFLAGS = -Wall
+MOSTLYCLEANFILES = res.rc
+AM_V_RES = $(AM_V_RES_$(V))
+AM_V_RES_ = $(AM_V_RES_@AM_DEFAULT_VERBOSITY@)
+AM_V_RES_0 = @echo "  RES   " $@;
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .o .obj
+.SUFFIXES: .c .o .obj .rc
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -472,6 +481,7 @@ install-strip:
 	  `test -z '$(STRIP)' || \
 	    echo "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'"` install
 mostlyclean-generic:
+	-test -z "$(MOSTLYCLEANFILES)" || rm -f $(MOSTLYCLEANFILES)
 
 clean-generic:
 
@@ -566,6 +576,11 @@ uninstall-am: uninstall-binPROGRAMS
 	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
 	tags uninstall uninstall-am uninstall-binPROGRAMS
 
+
+res.rc: res.rc.in
+	$(AM_V_GEN)$(SED) -e 's/<<VERSION>>/@VERSION@/' < res.rc.in > res.rc
+.rc.o:
+	$(AM_V_RES)windres -i $< $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

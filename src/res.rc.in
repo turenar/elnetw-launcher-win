@@ -1,0 +1,30 @@
+#include <winver.h>
+VS_VERSION_INFO	VERSIONINFO
+	FILEVERSION		0,1,0,0
+	PRODUCTVERSION	0,1,0,0
+	FILEFLAGSMASK	VS_FFI_FILEFLAGSMASK
+	FILEFLAGS		0
+	FILEOS			VOS_NT_WINDOWS32
+	FILETYPE		VFT_APP
+	FILESUBTYPE		VFT2_UNKNOWN
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "041104b0"
+    BEGIN
+      VALUE "CompanyName", "Turenai Project"
+      VALUE "FileDescription", "Elnetw Launcher for Windows Vista and later"
+      VALUE "FileVersion", "<<VERSION>>"
+      VALUE "InternalName", "elnetw-launcher-win"
+      VALUE "LegalCopyright", "Copyright 2014- Turenai Project"
+      VALUE "OriginalFilename", "elnetw.exe"
+      VALUE "ProductName", "Elnetw Windows Launcher"
+      VALUE "ProductVersion", "<<VERSION>>"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+//    VALUE "Translation", 0x0409, 1200
+    VALUE "Translation", 0x0411, 1200
+  END
+END
