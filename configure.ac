@@ -71,9 +71,17 @@ fi
 
 AC_PATH_PROG([GIT], [git], [])
 if test "x$GIT" != "x"; then
-	AC_MSG_CHECKING([git described version])
-	__described_version=`git describe`
+	AC_MSG_CHECKING([for git described version])
+	__described_version=`git describe --match 'v*'`
 	AC_MSG_RESULT([$__described_version])
+	AC_MSG_CHECKING([if project dir is dirty])
+	__uncommitted_files_count=$(git status --porcelain 2>/dev/null | egrep "^(M| M)" | wc -l)
+	if test ${__uncommitted_files_count} -eq 0; then
+		AC_MSG_RESULT([no])
+	else
+		AC_MSG_RESULT([yes])
+		__described_version=${__described_version}M
+	fi
 	AC_SUBST([PACKAGE_VERSION], [$__described_version])
 	AC_SUBST([VERSION], [$__described_version])
 fi

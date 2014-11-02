@@ -4716,11 +4716,22 @@ fi
 
 
 if test "x$GIT" != "x"; then
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking git described version" >&5
-$as_echo_n "checking git described version... " >&6; }
-	__described_version=`git describe`
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for git described version" >&5
+$as_echo_n "checking for git described version... " >&6; }
+	__described_version=`git describe --match 'v*'`
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $__described_version" >&5
 $as_echo "$__described_version" >&6; }
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if project dir is dirty" >&5
+$as_echo_n "checking if project dir is dirty... " >&6; }
+	__uncommitted_files_count=$(git status --porcelain 2>/dev/null | egrep "^(M| M)" | wc -l)
+	if test ${__uncommitted_files_count} -eq 0; then
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	else
+		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+		__described_version=${__described_version}M
+	fi
 	PACKAGE_VERSION=$__described_version
 
 	VERSION=$__described_version
